@@ -4,6 +4,8 @@ const express = require("express");
 
 const app = express();
 
+app.use(express.json());
+
 app.get("/products", (req, res) => {
   res.json({ products });
 });
@@ -19,6 +21,12 @@ app.delete("/products/:productId", (req, res) => {
       .status(404)
       .json({ message: `A product with id ${productId} does not exist.` });
   }
+});
+
+app.post("/products", (req, res) => {
+  const newProduct = req.body;
+  products.push(newProduct);
+  res.status(201).json(newProduct);
 });
 
 app.listen(8000, () => {
