@@ -10,10 +10,10 @@ app.use(express.json());
 app.get("/products", async (req, res) => {
   try {
     const products = await Product.findAll();
-    if (products) {
+    if (products.length > 0) {
       res.status(200).json(products);
     } else {
-      res.status(404).json({ message: "Product not found" });
+      res.status(404).json({ message: "No Products" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
