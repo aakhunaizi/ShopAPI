@@ -2,12 +2,20 @@ let products = require("./data");
 
 const express = require("express");
 
+const db = require("./db/models");
+
+const { Product } = require("./db/models/");
 const app = express();
 
 app.use(express.json());
 
-app.get("/products", (req, res) => {
-  res.json({ products });
+app.get("/products", async (req, res) => {
+  try {
+    const products = await Product.findAll();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 app.delete("/products/:productId", (req, res) => {
@@ -28,6 +36,8 @@ app.post("/products", (req, res) => {
   products.push(newProduct);
   res.status(201).json(newProduct);
 });
+
+db.sequelize.sync();
 
 app.listen(8000, () => {
   console.log("The application is listening on localhost:8000");
