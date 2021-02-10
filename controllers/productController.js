@@ -1,4 +1,13 @@
-const { Product } = require("../db/models/");
+const { Product } = require("../db/models");
+
+exports.fetchProduct = async (productId, next) => {
+  try {
+    const foundProduct = await Product.findByPk(productId);
+    return foundProduct;
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.productCreate = async (req, res, next) => {
   try {
@@ -11,26 +20,23 @@ exports.productCreate = async (req, res, next) => {
 
 exports.productList = async (req, res, next) => {
   try {
-    const products = await Product.findAll();
-    if (products.length > 0) {
-      res.status(200).json(products);
-    } else {
-      next({ status: 404, message: "No Products" });
-    }
+    const products = await Product.findAll({
+      attributes: ["id", "name", "price"],
+    });
+    res.status(200).json(products);
   } catch (error) {
     next(error);
   }
 };
 
+exports.productDetail = async (req, res, next) => {
+  res.json(req.product);
+};
+
 exports.productUpdate = async (req, res, next) => {
   try {
-    const foundProduct = await Product.findByPk(req.params.productId);
-    if (foundProduct) {
-      await foundProduct.update(req.body);
-      res.status(204).end();
-    } else {
-      next({ status: 404, message: "Product does not exist" });
-    }
+    await req.product.update(req.body);
+    res.status(200).end();
   } catch (error) {
     next(error);
   }
@@ -38,13 +44,8 @@ exports.productUpdate = async (req, res, next) => {
 
 exports.productDelete = async (req, res, next) => {
   try {
-    const foundProduct = await Product.findByPk(req.params.productId);
-    if (foundProduct) {
-      await foundProduct.destroy();
-      res.status(204).end();
-    } else {
-      next({ status: 404, message: "Product does not exist" });
-    }
+    await req.product.destroy();
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

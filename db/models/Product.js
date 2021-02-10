@@ -35,7 +35,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: { isUrl: true },
       },
-    }
+    },
+    { timestamps: false }
   );
   SequelizeSlugify.slugifyModel(Product, {
     source: ["name"],
