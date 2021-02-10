@@ -16,7 +16,7 @@ app.use("/products", productRoutes);
 app.use((req, res, next) => {
   next({
     status: 404,
-    message: "The product is in another castle :(",
+    message: "Not Found",
   });
 });
 
