@@ -16,7 +16,7 @@ app.use("/products", productRoutes);
 app.use((req, res, next) => {
   next({
     status: 404,
-    message: "Not Found",
+    message: "Sorry, we can't find what you're looking for.",
   });
 });
 
