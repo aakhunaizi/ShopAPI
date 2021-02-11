@@ -19,9 +19,7 @@ exports.productCreate = async (req, res, next) => {
 };
 
 exports.productList = async (req, res, next) => {
-  const products = await Product.findAll({
-    exclude: ["slug", "description"],
-  });
+  const products = await Product.findAll();
   res.status(200).json(products);
 };
 
