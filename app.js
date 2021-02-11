@@ -6,9 +6,12 @@ const productRoutes = require("./routes/products");
 
 const app = express();
 
+const cors = require("cors");
+
 //Middleware
 
 app.use(express.json());
+app.use(cors());
 app.use("/products/", productRoutes);
 
 //Not Found Middleware

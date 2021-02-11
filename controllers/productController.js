@@ -20,7 +20,7 @@ exports.productCreate = async (req, res, next) => {
 
 exports.productList = async (req, res, next) => {
   const products = await Product.findAll({
-    attributes: ["id", "name", "price"],
+    exclude: ["slug", "description"],
   });
   res.status(200).json(products);
 };
