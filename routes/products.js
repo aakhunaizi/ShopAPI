@@ -2,7 +2,6 @@ const express = require("express");
 const { Product } = require("../db/models");
 
 const {
-  productCreate,
   productList,
   productDetail,
   productUpdate,
@@ -27,7 +26,6 @@ router.param("productId", async (req, res, next, productId) => {
   }
 });
 
-router.post("/", upload.single("image"), productCreate);
 router.get("/", productList);
 router.get("/:productId", productDetail);
 router.put("/:productId", upload.single("image"), productUpdate);
