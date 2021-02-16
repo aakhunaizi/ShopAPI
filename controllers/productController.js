@@ -10,14 +10,7 @@ exports.fetchProduct = async (productId, next) => {
 };
 
 exports.productList = async (req, res, next) => {
-  const products = await Product.findAll({
-    attributes: req.body,
-    include: {
-      model: Shop,
-      as: "shop",
-      attributes: ["name"],
-    },
-  });
+  const products = await Product.findAll();
   res.status(200).json(products);
 };
 

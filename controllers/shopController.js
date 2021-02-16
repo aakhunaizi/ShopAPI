@@ -36,11 +36,10 @@ exports.productCreate = async (req, res, next) => {
 
 exports.shopList = async (req, res, next) => {
   const shops = await Shop.findAll({
-    attributes: ["id", "name"],
     include: {
       model: Product,
       as: "products",
-      attributes: ["id", "name"],
+      attributes: ["id"],
     },
   });
   res.status(200).json(shops);
