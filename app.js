@@ -6,16 +6,26 @@ const productRoutes = require("./routes/products");
 
 const shopRoutes = require("./routes/shops");
 
+const userRoutes = require("./routes/users");
+
 const app = express();
 
 const cors = require("cors");
 
 const path = require("path");
 
+const passport = require("passport");
+
+const { localStrategy } = require("./middleware/passport");
+
 //Middleware
 
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
+passport.use(localStrategy);
+app.use(userRoutes);
+
 app.use("/products/", productRoutes);
 app.use("/shops", shopRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
