@@ -19,14 +19,38 @@ exports.productDetail = async (req, res, next) => {
 };
 
 exports.productUpdate = async (req, res, next) => {
-  if (req.file) {
-    req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+  try {
+    const foundShop = await Shop.findByPk(req.product.shopId);
+
+    if (req.user.id === foundShop.userId) {
+      if (req.file) {
+        req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+      }
+      await req.product.update(req.body);
+      res.status(200).json(req.product);
+    } else {
+      res
+        .status(401)
+        .json({ message: "You cannot update another shop's products" });
+    }
+  } catch (error) {
+    next(error);
   }
-  const updatedProduct = await req.product.update(req.body);
-  res.status(200).json(updatedProduct);
 };
 
 exports.productDelete = async (req, res, next) => {
-  await req.product.destroy();
-  res.status(204).end();
+  try {
+    const foundShop = await Shop.findByPk(req.product.shopId);
+
+    if (req.user.id === foundShop.userId) {
+      await req.product.destroy();
+      res.status(204).end();
+    } else {
+      res
+        .status(401)
+        .json({ message: "You cannot delete another shop's products" });
+    }
+  } catch (error) {
+    next(error);
+  }
 };

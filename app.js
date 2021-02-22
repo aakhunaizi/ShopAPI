@@ -16,7 +16,7 @@ const path = require("path");
 
 const passport = require("passport");
 
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 //Middleware
 
@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(cors());
 app.use(passport.initialize());
 passport.use(localStrategy);
+passport.use(jwtStrategy);
 app.use(userRoutes);
 
 app.use("/products/", productRoutes);

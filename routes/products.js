@@ -1,5 +1,6 @@
 const express = require("express");
 const { Product } = require("../db/models");
+const passport = require("passport");
 
 const {
   productList,
@@ -28,7 +29,16 @@ router.param("productId", async (req, res, next, productId) => {
 
 router.get("/", productList);
 router.get("/:productId", productDetail);
-router.put("/:productId", upload.single("image"), productUpdate);
-router.delete("/:productId", productDelete);
+router.put(
+  "/:productId",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  productUpdate
+);
+router.delete(
+  "/:productId",
+  passport.authenticate("jwt", { session: false }),
+  productDelete
+);
 
 module.exports = router;
