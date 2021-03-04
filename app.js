@@ -8,6 +8,8 @@ const shopRoutes = require("./routes/shops");
 
 const userRoutes = require("./routes/users");
 
+const orderRoutes = require("./routes/orders");
+
 const app = express();
 
 const cors = require("cors");
@@ -26,7 +28,7 @@ app.use(passport.initialize());
 passport.use(localStrategy);
 passport.use(jwtStrategy);
 app.use(userRoutes);
-
+app.use(orderRoutes);
 app.use("/products/", productRoutes);
 app.use("/shops", shopRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
