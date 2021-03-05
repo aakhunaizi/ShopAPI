@@ -17,10 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       price: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         defaultValue: 1,
         validate: {
-          min: { args: [1], msg: "Minimum price is 1." },
+          min: { args: [0.5], msg: "Minimum price is 1." },
           max: { args: [20], msg: "Maximum price is 20." },
         },
       },
